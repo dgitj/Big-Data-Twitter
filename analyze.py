@@ -137,15 +137,15 @@ def tweet_sentiment(tweet):
 for tweet in my_tweets:
         print(tweet_sentiment(tweet['text']), " sentiment for the tweet: ", tweet['text'])
         if tweet_sentiment(tweet['text']) == 'positive':
-                positive = positive+1;
+                positive = positive+1
                 #print(tweet['text'] + "pos")
 
         if tweet_sentiment(tweet['text']) == 'neutral':
-                neutral = neutral+1;
+                neutral = neutral+1
                 #print(tweet['text'] + "neutral")
 
         if tweet_sentiment(tweet['text']) == 'negative':
-                negative = negative+1;
+                negative = negative+1
                 #print(tweet['text'] + "neg")
 
 
@@ -171,17 +171,6 @@ plt.show()
 ###########################################
 #most used hashtag if sentiment is negative
 ###########################################
-def tweet_sentiment(tweet):
-    tweet_analysis = TextBlob(clean_tweet(tweet))
-    if tweet_analysis.polarity > 0:
-        return 'positive'
-
-    elif tweet_analysis.polarity == 0:
-        return 'neutral'
-
-    else:
-        return 'negative'
-
 my_tweets.rewind()
 hashList = []
 for tweet in my_tweets:
@@ -206,18 +195,6 @@ plt.show()
 #most used hashtag if sentiment is positive
 ###########################################
 my_tweets.rewind()
-
-def tweet_sentiment(tweet):
-    tweet_analysis = TextBlob(clean_tweet(tweet))
-    if tweet_analysis.polarity > 0:
-        return 'positive'
-
-    elif tweet_analysis.polarity == 0:
-        return 'neutral'
-
-    else:
-        return 'negative'
-
 
 hashList = []
 for tweet in my_tweets:
