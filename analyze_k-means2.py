@@ -136,7 +136,6 @@ def up_date(id,cluster,terms_all,l,k):
 	
 	    	
 
-
 terms_all=[]
 id=[]
 with open(str(sys.argv[3]), 'r') as f:

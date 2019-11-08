@@ -1,14 +1,8 @@
 
-
-################################
-#Based on what is she attacked the most?
-#####################################
-                
         
 ##########################
 #k-means
 ##########################
-
 
 
 # defining the Jaccard distance

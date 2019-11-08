@@ -11,15 +11,14 @@ client = MongoClient()
 db = client.gt
 col = db.twitterBrazil
 
-#########################
-
 
 #######################################################
 # Retrieve data from the mongodb database, choosing
 # the fields you'll need afterwards
 #######################################################
+
 my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'text':1, 'entities.hashtags':1,
-'in_reply_to_status_id':1, 'is_quote_status':1, 'retweeted_status':1, 'user.screen_name':1, time} )
+'in_reply_to_status_id':1, 'is_quote_status':1, 'retweeted_status':1, 'user.screen_name':1} )
 numTweets = db.twitterBrazil.count()
 
 ####################################################
@@ -107,6 +106,10 @@ plt.title('Top 15 of hashtags captured')
 plt.tight_layout()
 plt.show()
 
+
+#################################
+# negative sentiment topics
+##################################
 
 #########################################################
 #Geo location

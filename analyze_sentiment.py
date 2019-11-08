@@ -8,6 +8,7 @@ import operator
 
 
 
+
 # Establish connection with database
 client = MongoClient()
 db = client.gt
@@ -20,10 +21,6 @@ col = db.twitterBrazil
 my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'text':1, 'entities.hashtags':1,
 'in_reply_to_status_id':1, 'is_quote_status':1, 'retweeted_status':1, 'user.screen_name':1} )
 numTweets = db.twitterBrazil.count()
-
-
-
-print(numTweets)
 
 
 ###############################################
@@ -84,24 +81,28 @@ for tweet in my_tweets:
 #print sentiment histogram
 ###############################################
 
-mu, sigma = 100, 15
-x = mu + sigma*np.random.randn(10000)
+mu = 0  # mean of distribution
+sigma = 15  # standard deviation of distribution
+x = mu + sigma * np.random.randn(437)
+
+num_bins = 50
+
+fig, ax = plt.subplots()
 
 # the histogram of the data
-n, bins, patches = plt.hist(x, 50, normed=1, facecolor='green', alpha=0.75)
+n, bins, patches = ax.hist(x, num_bins, density=1)
 
 # add a 'best fit' line
-y = mlab.normpdf( bins, mu, sigma)
-l = plt.plot(bins, y, 'r--', linewidth=1)
+y = ((1 / (np.sqrt(2 * np.pi) * sigma)) *
+     np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
+ax.plot(bins, y, '--')
+ax.set_xlabel('tweets')
+ax.set_ylabel(' density')
+ax.set_title("sentiment")
 
-plt.xlabel('tweets')
-plt.ylabel('Probability')
-plt.title("polarity")
-plt.axis([-1, 1, 0, 1])
-plt.grid(True)
-
-plt.show()         
-
+# Tweak spacing to prevent clipping of ylabel
+fig.tight_layout()
+plt.show()
 
 #print(polarity)
         
@@ -191,7 +192,3 @@ plt.title('Top 15 of hashtags captured, positive')
 plt.tight_layout()
 plt.show()
 
-
-print(positive)
-print(neutral)
-print(negative)
