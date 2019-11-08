@@ -84,12 +84,23 @@ for tweet in my_tweets:
 #print sentiment histogram
 ###############################################
 
-x = np.random.normal(size = 1000)
-plt.hist(x, density=True, bins=100)
-plt.ylabel('Probability');
-plt.axis([-1,1,0,1])
-plt.title('Percentage of Tweets with a certain sentiment')
-plt.show()            
+mu, sigma = 100, 15
+x = mu + sigma*np.random.randn(10000)
+
+# the histogram of the data
+n, bins, patches = plt.hist(x, 50, normed=1, facecolor='green', alpha=0.75)
+
+# add a 'best fit' line
+y = mlab.normpdf( bins, mu, sigma)
+l = plt.plot(bins, y, 'r--', linewidth=1)
+
+plt.xlabel('tweets')
+plt.ylabel('Probability')
+plt.title("polarity")
+plt.axis([-1, 1, 0, 1])
+plt.grid(True)
+
+plt.show()         
 
 
 #print(polarity)
