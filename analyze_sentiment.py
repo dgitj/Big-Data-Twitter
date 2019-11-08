@@ -78,13 +78,21 @@ for tweet in my_tweets:
 
         if tweet_sentiment(tweet['text']) == 'negative':
                 negative = negative+1;
-                
-print(len(positive))
-print(len(neutral)
-print(len(negative)
 
 
-print(polarity)
+################################################
+#print sentiment histogram
+###############################################
+
+x = np.random.normal(size = 1000)
+plt.hist(x, density=True, bins=100)
+plt.ylabel('Probability');
+plt.axis([-1,1,0,1])
+plt.title('Percentage of Tweets with a certain sentiment')
+plt.show()            
+
+
+#print(polarity)
         
 ######################################
 # print sentiment pie chart
@@ -102,17 +110,7 @@ plt.axis('equal')
 plt.title('Percentage of Tweets with a certain sentiment')
 plt.show()
 
-################################################
-#print sentiment histogram
-###############################################
 
-
-x = np.random.normal(size = 1000)
-plt.hist(x, density=True, bins=30)
-plt.ylabel('Probability');
-plt.axis([-1,1,0,1])
-plt.title('Percentage of Tweets with a certain sentiment')
-plt.show()
 
 ###########################################
 #most used hashtag if sentiment is negative
@@ -183,3 +181,6 @@ plt.tight_layout()
 plt.show()
 
 
+print(positive)
+print(neutral)
+print(negative)
