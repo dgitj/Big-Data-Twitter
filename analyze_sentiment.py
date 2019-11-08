@@ -21,7 +21,9 @@ my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'text':1, 'entities.has
 'in_reply_to_status_id':1, 'is_quote_status':1, 'retweeted_status':1, 'user.screen_name':1} )
 numTweets = db.twitterBrazil.count()
 
-print(count(my_tweets))
+
+
+print(numTweets)
 
 
 ###############################################
@@ -39,15 +41,17 @@ neutral = 0
 
 def clean_tweet(tweet):
     return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t]) | (\w +:\ / \ / \S +)", " ", tweet).split())
-
+    
 clean_tweet
 
-print()
+
 
 polarity = []
+def tweet_sentiment_pol(tweet):
+    tweet_analysis = TextBlob(clean_tweet(tweet))
+    return tweet_analysis.polarity
 
 def tweet_sentiment(tweet):
-    
     tweet_analysis = TextBlob(clean_tweet(tweet))
     
     if tweet_analysis.polarity > 0:
@@ -60,24 +64,27 @@ def tweet_sentiment(tweet):
         return 'negative'
 
 for tweet in my_tweets:
-        #print(tweet_sentiment(tweet['text']), " sentiment for the tweet: ", tweet['text'])
-        polarity.append(tweet_sentiment(tweet['text']))
         
-        #print(tweet_analysis.sentiment.polarity)
+        polarity.append(tweet_sentiment_pol(tweet['text']))
+        
+        
         if tweet_sentiment(tweet['text']) == 'positive':
                 positive = positive+1;
-                #print(tweet['text'] + "pos")
+                
 
         if tweet_sentiment(tweet['text']) == 'neutral':
                 neutral = neutral+1;
-                #print(tweet['text'] + "neutral")
+                
 
         if tweet_sentiment(tweet['text']) == 'negative':
                 negative = negative+1;
-                #print(tweet['text'] + "neg")
+                
 
-
+print(polarity)
         
+######################################
+# print sentiment pie chart
+# ###################################        
 
 labels = 'Positive sentiment', 'Negative sentiment', 'Neutral sentiment'
 sizes = [positive, negative, neutral]
@@ -91,6 +98,17 @@ plt.axis('equal')
 plt.title('Percentage of Tweets with a certain sentiment')
 plt.show()
 
+################################################
+#print sentiment histogram
+###############################################
+
+
+x = np.random.normal(size = 1000)
+plt.hist(x, density=True, bins=30)
+plt.ylabel('Probability');
+plt.axis([-1,1,0,1])
+plt.title('Percentage of Tweets with a certain sentiment')
+plt.show()
 
 ###########################################
 #most used hashtag if sentiment is negative
