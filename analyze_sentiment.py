@@ -79,6 +79,10 @@ for tweet in my_tweets:
         if tweet_sentiment(tweet['text']) == 'negative':
                 negative = negative+1;
                 
+print(len(positive))
+print(len(neutral)
+print(len(negative)
+
 
 print(polarity)
         
