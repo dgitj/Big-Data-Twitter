@@ -21,6 +21,8 @@ my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'text':1, 'entities.has
 'in_reply_to_status_id':1, 'is_quote_status':1, 'retweeted_status':1, 'user.screen_name':1} )
 numTweets = db.twitterBrazil.count()
 
+print(count(my_tweets))
+
 
 ###############################################
 #Sentiment analysis
@@ -40,6 +42,8 @@ def clean_tweet(tweet):
 
 clean_tweet
 
+print()
+
 polarity = []
 
 def tweet_sentiment(tweet):
@@ -58,7 +62,7 @@ def tweet_sentiment(tweet):
 for tweet in my_tweets:
         #print(tweet_sentiment(tweet['text']), " sentiment for the tweet: ", tweet['text'])
         polarity.append(tweet_sentiment(tweet['text']))
-        print(polarity)
+        
         #print(tweet_analysis.sentiment.polarity)
         if tweet_sentiment(tweet['text']) == 'positive':
                 positive = positive+1;
@@ -74,10 +78,6 @@ for tweet in my_tweets:
 
 
         
-
-print(positive)
-print(negative)
-print(neutral)
 
 labels = 'Positive sentiment', 'Negative sentiment', 'Neutral sentiment'
 sizes = [positive, negative, neutral]
