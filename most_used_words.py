@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import numpy as np
 import operator
-
+from statistics import mode
 from textblob import TextBlob
 import re
 
@@ -13,6 +13,8 @@ from twython import Twython
 from PIL import Image
 from wordcloud import WordCloud, STOPWORDS
 from IPython.display import Image as im
+
+from collections import Counter
 
 
 # Establish connection with database
@@ -71,7 +73,7 @@ my_tweets.rewind()
 
 tweets = []
 
-for e in neg_tweets:
+for e in my_tweets:
     tweets.append(e['text'])
 
 
@@ -86,22 +88,7 @@ words = [w for w in words if len(w) > 2]  # ignore a, an, be, ...
 words = [w.lower() for w in words]
 words = [w for w in words if w not in STOPWORDS]
 
-
-mask = np.array(Image.open('baum.png'))
-
-wc = WordCloud(background_color="white", max_words=2000, mask=mask)
-clean_string = ','.join(words)
-wc.generate(clean_string)
+most_common_words= [word for word, word_count in Counter(words).most_common(20)]
+print(most_common_words)
 
 
-f = plt.figure(figsize=(50,50))
-f.add_subplot(1,2, 1)
-plt.imshow(mask, cmap=plt.cm.gray, interpolation='bilinear')
-plt.title('Original Stencil', size=40)
-plt.axis("off")
-f.add_subplot(1,2, 2)
-plt.imshow(wc, interpolation='bilinear')
-plt.title('Twitter Generated Cloud', size=40)
-plt.axis("off")
-plt.show()
-         

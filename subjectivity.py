@@ -41,18 +41,18 @@ clean_tweet
 
 
 
-polarity = []
+subjectivity = []
 def tweet_sentiment_pol(tweet):
     tweet_analysis = TextBlob(clean_tweet(tweet))
-    return tweet_analysis.polarity
+    return tweet_analysis.subjectivity
 
 def tweet_sentiment(tweet):
     tweet_analysis = TextBlob(clean_tweet(tweet))
     
-    if tweet_analysis.polarity > 0:
+    if tweet_analysis.subjectivity > 0:
         return 'positive'
 
-    elif tweet_analysis.polarity == 0:
+    elif tweet_analysis.subjectivity == 0:
         return 'neutral'
 
     else:
@@ -60,8 +60,7 @@ def tweet_sentiment(tweet):
 
 for tweet in my_tweets:
         
-        polarity.append(tweet_sentiment_pol(tweet['text']))
-        
+        subjectivity.append(tweet_sentiment_pol(tweet['text']))
         
         if tweet_sentiment(tweet['text']) == 'positive':
                 positive = positive+1;
@@ -79,30 +78,9 @@ for tweet in my_tweets:
 #print sentiment histogram
 ###############################################
 
-mu = 0  # mean of distribution
-sigma = 15  # standard deviation of distribution
-x = mu + sigma * np.random.randn(437)
-
-num_bins = 50
-
-fig, ax = plt.subplots()
-
-# the histogram of the data
-n, bins, patches = ax.hist(x, num_bins, density=1)
-
-# add a 'best fit' line
-y = ((1 / (np.sqrt(2 * np.pi) * sigma)) *
-     np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
-ax.plot(bins, y, '--')
-ax.set_xlabel('tweets')
-ax.set_ylabel(' density')
-ax.set_title("sentiment")
-
-# Tweak spacing to prevent clipping of ylabel
-fig.tight_layout()
-plt.show()
-
-#print(polarity)
+def selection_sort(subjectivity)
+    for i in range(len(s)):
+        swap = i + 
         
 ######################################
 # print sentiment pie chart
@@ -119,4 +97,3 @@ plt.pie(sizes, labels=labels, colors=colors,
 plt.axis('equal')
 plt.title('Percentage of Tweets with a certain sentiment')
 plt.show()
-

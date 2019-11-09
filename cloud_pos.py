@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import numpy as np
 import operator
-
+from statistics import mode
 from textblob import TextBlob
 import re
 
@@ -44,7 +44,7 @@ clean_tweet
 
 hashList = []
 
-neg_tweets = []
+pos_tweets = []
 
 
 def tweet_sentiment(tweet):
@@ -62,8 +62,8 @@ def tweet_sentiment(tweet):
 my_tweets.rewind()
 
 for t in my_tweets:
-    if tweet_sentiment(t['text']) == "negative":
-               neg_tweets.append(t)
+    if tweet_sentiment(t['text']) == "positive":
+               pos_tweets.append(t)
 
 
 
@@ -71,7 +71,7 @@ my_tweets.rewind()
 
 tweets = []
 
-for e in neg_tweets:
+for e in pos_tweets:
     tweets.append(e['text'])
 
 
@@ -85,6 +85,11 @@ words = no_special_characters.split(" ")
 words = [w for w in words if len(w) > 2]  # ignore a, an, be, ...
 words = [w.lower() for w in words]
 words = [w for w in words if w not in STOPWORDS]
+
+def most_common(words): 
+    return(mode(words)) 
+
+print(most_common(words))
 
 
 mask = np.array(Image.open('baum.png'))
