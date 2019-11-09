@@ -2,6 +2,7 @@
 from __future__ import division
 from pymongo import MongoClient
 import matplotlib.pyplot as plt
+from matplotlib import ticker
 from collections import Counter
 import numpy as np
 import operator
@@ -42,7 +43,7 @@ clean_tweet
 
 
 subjectivity = []
-def tweet_sentiment_pol(tweet):
+def tweet_sentiment_sub(tweet):
     tweet_analysis = TextBlob(clean_tweet(tweet))
     return tweet_analysis.subjectivity
 
@@ -60,7 +61,7 @@ def tweet_sentiment(tweet):
 
 for tweet in my_tweets:
         
-        subjectivity.append(tweet_sentiment_pol(tweet['text']))
+        subjectivity.append(tweet_sentiment_sub(tweet['text']))
         
         if tweet_sentiment(tweet['text']) == 'positive':
                 positive = positive+1;
@@ -74,26 +75,13 @@ for tweet in my_tweets:
                 negative = negative+1;
 
 
-################################################
-#print sentiment histogram
-###############################################
 
-def selection_sort(subjectivity)
-    for i in range(len(s)):
-        swap = i + 
-        
-######################################
-# print sentiment pie chart
-# ###################################        
-
-labels = 'Positive sentiment', 'Negative sentiment', 'Neutral sentiment'
-sizes = [positive, negative, neutral]
-frequencies = [x/numTweets for x in sizes]
-colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
-#explode = (0.1, 0, 0, 0)  # explode 1st slice
-# Plot
-plt.pie(sizes, labels=labels, colors=colors,
-		autopct='%1.1f%%', shadow=True, startangle=140)
-plt.axis('equal')
-plt.title('Percentage of Tweets with a certain sentiment')
+num_bins = 50
+plt.figure(figsize=(10,6))
+n, bins, patches = plt.hist(subjectivity, num_bins, facecolor='blue', alpha=0.5)
+plt.xlabel('Subjectivity')
+plt.ylabel('Count')
+plt.title('Histogram of subjectivity')
 plt.show()
+
+        

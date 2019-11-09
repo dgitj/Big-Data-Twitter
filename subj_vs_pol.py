@@ -6,6 +6,8 @@ from matplotlib import ticker
 from collections import Counter
 import numpy as np
 import operator
+import seaborn as sns
+import pandas as pd
 
 
 # Establish connection with database
@@ -17,9 +19,10 @@ col = db.twitterBrazil
 # Retrieve data from the mongodb database, choosing
 # the fields you'll need afterwards
 #######################################################
-my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'text':1, 'entities.hashtags':1,
+my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'id':1, 'text':1, 'entities.hashtags':1,
 'in_reply_to_status_id':1, 'is_quote_status':1, 'retweeted_status':1, 'user.screen_name':1} )
 numTweets = db.twitterBrazil.count()
+
 
 
 ###############################################
@@ -42,51 +45,39 @@ clean_tweet
 
 
 
+subjectivity = []
+ids = []
+def tweet_sentiment_sub(tweet):
+    tweet_analysis = TextBlob(clean_tweet(tweet))
+    return tweet_analysis.subjectivity
+
+for tweet in my_tweets: 
+        subjectivity.append(tweet_sentiment_sub(tweet['text']))
+        ids.append(tweet['id'])
+        
+
+##########################################
+#polarity
+#########################################
+
+my_tweets.rewind() 
 polarity = []
+
+
 def tweet_sentiment_pol(tweet):
     tweet_analysis = TextBlob(clean_tweet(tweet))
     return tweet_analysis.polarity
 
-def tweet_sentiment(tweet):
-    tweet_analysis = TextBlob(clean_tweet(tweet))
-    
-    if tweet_analysis.polarity > 0:
-        return 'positive'
-
-    elif tweet_analysis.polarity == 0:
-        return 'neutral'
-
-    else:
-        return 'negative'
-
-for tweet in my_tweets:
-        
+for tweet in my_tweets: 
         polarity.append(tweet_sentiment_pol(tweet['text']))
         
-        
-        if tweet_sentiment(tweet['text']) == 'positive':
-                positive = positive+1;
-                
-
-        if tweet_sentiment(tweet['text']) == 'neutral':
-                neutral = neutral+1;
-                
-
-        if tweet_sentiment(tweet['text']) == 'negative':
-                negative = negative+1;
 
 
-################################################
-#print sentiment histogram
-###############################################
+dataframe = pd.DataFrame(index = ids, data = {"subjectivity": subjectivity, "polarity": polarity}) 
 
-num_bins = 50
-plt.figure(figsize=(10,6))
-n, bins, patches = plt.hist(polarity, num_bins, facecolor='blue', alpha=0.5)
-plt.xlabel('Polarity')
-plt.ylabel('Count')
-plt.title('Histogram of polarity')
-plt.show();
 
-        
 
+#scatter for dffilter
+
+sns.lmplot(x='subjectivity',y='polarity', data = dataframe,fit_reg=True,scatter=True, height=10,palette="mute") 
+plt.show()
