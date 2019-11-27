@@ -3,12 +3,12 @@ import tweepy
 import json
 from pymongo import MongoClient
 
-MONGO_HOST= 'mongodb://localhost/gt'  # assuming you have mongoDB installed locally
+MONGO_HOST= 'mongodb://localhost/watches'  # assuming you have mongoDB installed locally
                                         # and a database called 'test'
                                         # if 'test' doesn't exist, it will be created
 
 # Change your hashtags here
-WORDS = ['@GretaThunberg'] # This is an OR relation
+WORDS = ['rolex','sinn','omega'] # This is an OR relation
 
 # Insert your keys here
 CONSUMER_KEY = "yI4vzIrtUrwLHunScuoliBpsy"
@@ -35,7 +35,7 @@ class StreamListener(tweepy.StreamListener):
             client = MongoClient(MONGO_HOST)
             
             # Use test database. If it doesn't exist, it will be created.
-            db = client.gt
+            db = client.watches
     
             # Decode the JSON from Twitter
             datajson = json.loads(data)

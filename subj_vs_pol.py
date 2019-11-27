@@ -19,11 +19,27 @@ col = db.twitterBrazil
 # Retrieve data from the mongodb database, choosing
 # the fields you'll need afterwards
 #######################################################
-my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'id':1, 'text':1, 'entities.hashtags':1,
+my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'id':1, 'text':1, 'entities.hashtags':1, 'geo':1, 'location':1, 'coordinates':1, 'place':1,
 'in_reply_to_status_id':1, 'is_quote_status':1, 'retweeted_status':1, 'user.screen_name':1} )
 numTweets = db.twitterBrazil.count()
 
+location = []
 
+
+for i in my_tweets:
+    if i['place'] != None:
+        loc = i['place']['bounding_box']['coordinates']
+        location.append(loc)
+    
+#for i in location:
+ #       location2.append({'full_name':location})
+
+print(*location, sep='\n')
+
+
+#api key google, places: AIzaSyAjZWHtwxWWlHfJPODzbF8JAMaa5EVN9Kw
+
+    
 
 ###############################################
 #Sentiment analysis
