@@ -5,11 +5,12 @@ from matplotlib import ticker
 from collections import Counter
 import numpy as np
 import operator
-import seaborn as sns
+#import seaborn as sns
 import pandas as pd
-import cartopy
 
-#import gmplot
+
+
+
 
 
 
@@ -61,25 +62,15 @@ for i in coordinates:
 
 #print(coordinates)
 
+map = plt.imread("C:/Users/tdavi/Documents/GitHub/big-data-analysis/world_map")
 
-#fig = gmaps.figure(map_type='HYBRID')
-#heatmap_layer = gmaps.heatmap_layer(coordinates)
-#fig.add_layer(heatmap_layer)
-#fig
+fig, ax = plt.subplots(figsize = (8,7))
+ax.scatter(longitude_list, latitude_list, zorder=1, alpha= 0.2, c='b', s=10)
+ax.set_title('Plotting Spatial Data on Riyadh Map')
+ax.set_xlim(BBox[0],BBox[1])
+ax.set_ylim(BBox[2],BBox[3])
+ax.imshow(map, zorder=0, extent = BBox, aspect= 'equal')
 
-# 1. Draw the map background
-fig = plt.figure(figsize=(8, 8))
-m = Basemap(projection='lcc', resolution='h', 
-            lat_0=37.5, lon_0=-119,
-            width=1E6, height=1.2E6)
-m.shadedrelief()
-m.drawcoastlines(color='gray')
-m.drawcountries(color='gray')
-m.drawstates(color='gray')
-
-# 2. scatter city data, with color reflecting population
-# and size reflecting area
-m.scatter(longitude, latitude, latlon=True, cmap='Reds', alpha=0.5)
 
 
 
