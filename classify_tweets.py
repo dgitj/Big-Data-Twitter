@@ -6,7 +6,9 @@ from matplotlib import ticker
 from collections import Counter
 import numpy as np
 import operator
-
+import csv
+from textblob import TextBlob
+import re
 
 # Establish connection with database
 client = MongoClient()
@@ -22,13 +24,23 @@ my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'text':1, 'entities.has
 numTweets = db.twitterBrazil.count()
 
 
+##########################################
+#only original content
+########################################
+
+original = []
+for tweet in my_tweets:
+    if tweet.get('retweet_status') is None and tweet.get('is_quote_status') is None and tweet.get('in_reply_to_status_id') is None:
+        original.append(tweet['text'])
+
+print(len(original))
 ###############################################
 #Sentiment analysis
 ###############################################
 
 my_tweets.rewind() 
-from textblob import TextBlob
-import re
+
+
 positive = 0
 negative = 0
 neutral = 0
@@ -59,9 +71,11 @@ def tweet_sentiment(tweet):
     else:
         return 'negative'
 
+tweet_text = []
 for tweet in my_tweets:
         
-        polarity.append(tweet_sentiment_pol(tweet['text']))
+        polarity.append(tweet_sentiment(tweet['text']))
+        tweet_text.append(tweet['text'])
         
         
         if tweet_sentiment(tweet['text']) == 'positive':
@@ -76,19 +90,10 @@ for tweet in my_tweets:
                 negative = negative+1
 
 
-################################################
-#print sentiment histogram
-###############################################
+# print(*polarity[:10], sep='\n')
+# print(*tweet_text[:10], sep = '\n')
 
-# num_bins = 50
-# plt.figure(figsize=(10,6))
-# n, bins, patches = plt.hist(polarity, num_bins, facecolor='blue', alpha=0.5)
-# plt.xlabel('Polarity')
-# plt.ylabel('Count')
-# plt.title('Histogram of polarity')
-# plt.show()
-
-
-
-        
+######################################
+#Export tweet +  sentiment to csv for better readability
+######################################
 

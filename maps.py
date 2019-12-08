@@ -1,14 +1,20 @@
-from __future__ import division
+#from __future__ import division
+import shapely
 from pymongo import MongoClient
 import matplotlib.pyplot as plt
+from matplotlib.transforms import Bbox
 from matplotlib import ticker
 from collections import Counter
 import numpy as np
 import operator
-#import seaborn as sns
+import seaborn as sns
 import pandas as pd
+import descartes
+import six
+import cartopy.crs as ccrs
+from matplotlib.patches import Circle
 
-
+from itertools import product
 
 
 
@@ -28,7 +34,7 @@ my_tweets = db.twitterBrazil.find({},{'lang':1, '_id':0, 'id':1, 'text':1, 'enti
 numTweets = db.twitterBrazil.count()
 
 
-location = []
+location = [] 
 
 
 for i in my_tweets:
@@ -59,19 +65,41 @@ for i in coordinates:
     latitude_list.append(latitude)
     longitude_list.append(longitude)
 
+#sort and group by location 
 
-#print(coordinates)
-
-map = plt.imread("C:/Users/tdavi/Documents/GitHub/big-data-analysis/world_map")
-
-fig, ax = plt.subplots(figsize = (8,7))
-ax.scatter(longitude_list, latitude_list, zorder=1, alpha= 0.2, c='b', s=10)
-ax.set_title('Plotting Spatial Data on Riyadh Map')
-ax.set_xlim(BBox[0],BBox[1])
-ax.set_ylim(BBox[2],BBox[3])
-ax.imshow(map, zorder=0, extent = BBox, aspect= 'equal')
+m = pd.DataFrame({'longitude': longitude_list, 'latitude': latitude_list})
+count = m.groupby(['longitude', 'latitude']).size().to_frame('count').reset_index()
+ordered_count = count.sort_values(by=['count'])
+count_list = ordered_count.astype({'count': int})
 
 
 
+ 
+############################################
+#plot map
+############################################
+
+ax = plt.axes(projection=ccrs.PlateCarree())
+ax.stock_img()
+# plot individual locations                                                                                                       
+#ax.plot(latitude_list, longitude_list, 'ro', transform=ccrs.PlateCarree())
+
+#radius
+def get_radius(freq):
+    if freq < 20:
+        return 0.5
+    elif freq < 100:
+        return 2.0
+    elif freq < 1000:
+        return 1.8
+
+
+# plot count of tweets per location
+for i, row in count_list.iterrows():
+    ax.add_patch(Circle(xy=[row[1], row[0]], radius=get_radius(row[2]), color='blue', alpha=0.6, transform=ccrs.PlateCarree()))
+    
+    
 
 #api key google, places: AIzaSyAjZWHtwxWWlHfJPODzbF8JAMaa5EVN9Kw
+
+plt.show()
