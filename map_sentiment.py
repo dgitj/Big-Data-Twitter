@@ -11,7 +11,6 @@ import pandas as pd
 import cartopy.crs as ccrs
 from matplotlib.patches import Circle
 from itertools import product
-import cartopy.feature as cfeature
 #api key google, places: AIzaSyAjZWHtwxWWlHfJPODzbF8JAMaa5EVN9Kw
 
 
@@ -58,7 +57,7 @@ for i in coordinates:
     longitude_list.append(longitude)
 
 #sort and group by location 
-m = pd.DataFrame({'longitude': longitude_list, 'latitude': latitude_list})
+m = pd.DataFrame({'longitude': longitude_list, 'latitude': latitude_list, 'text': text})
 count = m.groupby(['longitude', 'latitude']).size().to_frame('count').reset_index()
 ordered_count = count.sort_values(by=['count'])
 count_list = ordered_count.astype({'count': int})
@@ -73,20 +72,19 @@ ax.stock_img()
 # plot individual locations                                                                                                       
 #ax.plot(latitude_list, longitude_list, 'ro', transform=ccrs.PlateCarree())
 
-#radius size
-def get_radius(freq):
-    if freq < 20:
-        return 0.5
-    elif freq < 50:
-        return 3.0
-    elif freq < 300:
-        return 3.5
+#color size --> for SENTIMENT
+def get_color(sentiment):
+    if sentiment == "positive" :
+        return "green"
+    elif sentiment = "neutral":
+        return "grey"
+    elif sentiment == "negative":
+        return "red"
 
 
 # plot count of tweets per location
 for i, row in count_list.iterrows():
-    ax.add_patch(Circle(xy=[row[1], row[0]], radius=get_radius(row[2]), color='blue', alpha=0.6, transform=ccrs.PlateCarree()))  
+    ax.add_patch(Circle(xy=[row[1], row[0]], radius=0.5, color=get_color(sentiment), alpha=0.6, transform=ccrs.PlateCarree()))  
 plt.show()
 
-print(len(location))
 
