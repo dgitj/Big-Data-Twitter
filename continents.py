@@ -76,9 +76,10 @@ eu_tweets = []
 # for i in my_tweets:
 #     if i['place']  == "Canada":
 #             us_tweets.append(i['text'])
-#     else:
-#         us_tweets.append("")
-   
+#    
+
+
+
 #place type
 
 for i in location:
