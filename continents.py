@@ -210,16 +210,16 @@ for t in se_tweets:
 for t in de_tweets:
     de_sentiment.append(tweet_sentiment(t))
 
-mean1 = statistics.median(us_sentiment)
-mean2 = statistics.median(ca_sentiment)
-mean3 = statistics.median(gb_sentiment)
-mean4 = statistics.median(br_sentiment)
-mean5 = statistics.median(au_sentiment)
-mean6 = statistics.median(in_sentiment)
-mean7 = statistics.median(fr_sentiment)
-mean8 = statistics.median(es_sentiment)
-mean9 = statistics.median(se_sentiment)
-mean10 = statistics.median(de_sentiment)
+mean1 = statistics.mean(us_sentiment)
+mean2 = statistics.mean(ca_sentiment)
+mean3 = statistics.mean(gb_sentiment)
+mean4 = statistics.mean(br_sentiment)
+mean5 = statistics.mean(au_sentiment)
+mean6 = statistics.mean(in_sentiment)
+mean7 = statistics.mean(fr_sentiment)
+mean8 = statistics.mean(es_sentiment)
+mean9 = statistics.mean(se_sentiment)
+mean10 = statistics.mean(de_sentiment)
 
 
 

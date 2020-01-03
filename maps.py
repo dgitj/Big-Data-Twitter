@@ -68,8 +68,19 @@ count_list = ordered_count.astype({'count': int})
 #plot map
 ############################################
 
-ax = plt.axes(projection=ccrs.PlateCarree())
-ax.stock_img()
+central_lat = 37.5
+central_lon = -96
+extent = [-120, -70, 24, 50.5]
+central_lon = np.mean(extent[:2])
+central_lat = np.mean(extent[2:])
+
+plt.figure(figsize=(12, 6))
+ax = plt.axes(projection=ccrs.AlbersEqualArea(central_lon, central_lat))
+ax.set_extent(extent)
+
+
+#ax = plt.axes(projection=ccrs.PlateCarree())
+#ax.stock_img()
 # plot individual locations                                                                                                       
 #ax.plot(latitude_list, longitude_list, 'ro', transform=ccrs.PlateCarree())
 
@@ -78,8 +89,8 @@ def get_radius(freq):
     if freq < 20:
         return 0.5
     elif freq < 50:
-        return 3.0
-    elif freq < 300:
+        return 1.5
+    elif freq < 100:
         return 3.5
 
 
