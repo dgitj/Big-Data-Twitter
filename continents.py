@@ -64,12 +64,12 @@ for i in location:
 
 #group by
 m = pd.DataFrame({'country': countries, 'city': cities, 'code': country_codes })
-count = m.groupby(['code']).size().to_frame('count').reset_index()
-ordered_count = count.sort_values(by=['count'])
-count_list = ordered_count.astype({'count': int})
+count = m.groupby(['city']).size().to_frame('city').reset_index()
+ordered_count = count.sort_values(by=['city'])
+count_list = ordered_count.astype({'city': int})
 
 my_tweets.rewind()
-#print(count_list[-20:])
+print(count_list[-20:])
 #print(len(location))
 
 
@@ -232,4 +232,4 @@ print(mean6)
 print(mean7)
 print(mean8)
 print(mean9)
-print(mean10)
+print(mean10) 

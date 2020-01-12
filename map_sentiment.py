@@ -37,6 +37,9 @@ for i in my_tweets:
         location.append(loc)
 
 
+print(len(location))
+
+
 #coordinates are 4 values if its a 'twitter place' --> pick the first
 coordinates = []
 
@@ -76,7 +79,7 @@ ax.stock_img()
 def get_color(sentiment):
     if sentiment == "positive" :
         return "green"
-    elif sentiment = "neutral":
+    elif sentiment == "neutral":
         return "grey"
     elif sentiment == "negative":
         return "red"

@@ -41,7 +41,6 @@ def clean_tweet(tweet):
 clean_tweet
 
 
-
 polarity = []
 def tweet_sentiment_pol(tweet):
     tweet_analysis = TextBlob(clean_tweet(tweet))
@@ -80,15 +79,23 @@ for tweet in my_tweets:
 #print sentiment histogram
 ###############################################
 
-# num_bins = 50
-# plt.figure(figsize=(10,6))
-# n, bins, patches = plt.hist(polarity, num_bins, facecolor='blue', alpha=0.5)
-# plt.xlabel('Polarity')
-# plt.ylabel('Count')
-# plt.title('Histogram of polarity')
-# plt.show()
+#num_bins = 50
+#plt.figure(figsize=(10,6))
+#n, bins, patches = plt.hist(polarity, num_bins, facecolor='blue', alpha=0.5)
+#plt.xlabel('Polarity')
+#plt.ylabel('Count')
+#plt.title('Histogram of polarity')
+#plt.show()
 
-
-
-        
-
+# ----------- Pie Chart ------------------------
+labels = 'positive', 'negative', 'neutral'
+sizes = [positive, negative, neutral]
+frequencies = [x/numTweets for x in sizes]
+colors = ['green', 'red', 'grey']
+explode = (0.1, 0, 0)  # explode 1st slice
+# Plot
+plt.pie(sizes, explode=explode, labels=labels, colors=colors,
+		autopct='%1.1f%%', shadow=True, startangle=140)
+plt.axis('equal')
+plt.title('Sentiment of all tweets')
+plt.show()
