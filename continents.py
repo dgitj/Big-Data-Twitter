@@ -45,7 +45,7 @@ country_codes = []
 
 # get the values for the location list
 for i in my_tweets:
-    if i['place'] != None:
+    if i['place'] != None and i['lang'] == 'en':
         loc = i['place']
         location.append(loc)
 
@@ -64,9 +64,9 @@ for i in location:
 
 #group by
 m = pd.DataFrame({'country': countries, 'city': cities, 'code': country_codes })
-count = m.groupby(['city']).size().to_frame('city').reset_index()
-ordered_count = count.sort_values(by=['city'])
-count_list = ordered_count.astype({'city': int})
+count = m.groupby(['code']).size().to_frame('count').reset_index()
+ordered_count = count.sort_values(by=['count'])
+count_list = ordered_count.astype({'count': int})
 
 my_tweets.rewind()
 print(count_list[-20:])
