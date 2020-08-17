@@ -10,11 +10,6 @@ MONGO_HOST= 'mongodb://localhost/gt'  # assuming you have mongoDB installed loca
 # Change your hashtags here
 WORDS = ['@GretaThunberg'] # This is an OR relation
 
-# Insert your keys here
-CONSUMER_KEY = "yI4vzIrtUrwLHunScuoliBpsy"
-CONSUMER_SECRET = "XlTd6LCrCGGkEp83VbfevVEXG63kWEv3fAWDxG63SrDRNc0CZu"
-ACCESS_TOKEN = "1179424102513291264-ddKoYSvKWW2vkkjiFkXuX2tUDlUOH7"
-ACCESS_TOKEN_SECRET = "8QjuC8NwlPzT8rh5J6IrLxi97xGQw4J4mi7i8y1ijm5JJ"
 
 
 class StreamListener(tweepy.StreamListener):    
